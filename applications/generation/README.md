@@ -97,3 +97,58 @@ The encoder-decoder framework is widely used for this task. The image encoder is
 ## Basic Image Captioning.ipynb
 
 In this notebook, the resnet-152 model pretrained on the ILSVRC-2012-CLS image classification dataset is used as the encoder. The decoder is a long short-term memory (LSTM) network.
+
+## Image Captioning with Attention.ipynb
+
+In this notebook, the resnet-101 model pretrained on the ILSVRC-2012-CLS image classification dataset is used as the encoder. The decoder is a long short-term memory (LSTM) network. Attention is implemented. Instead of the simple average, we use the weighted average across all pixels, with the weights of the important pixels being greater. This weighted representation of the image can be concatenated with the previously generated word at each step to generate the next word of the caption.
+
+### Captioning with Beam Search.ipynb
+
+Instead of greedily choosing the most likely next step as the caption is constructed, the beam search expands all possible next steps and keeps the k most likely, where k is a user-specified parameter and controls the number of beams or parallel searches through the sequence of probabilities.
+
+### Image Captioning with BPE Tokenization
+
+Today, subword tokenization schemes inspired by BPE have become the norm in most advanced models including the very popular family of contextual language models like BERT, GPT-2,RoBERTa, etc.
+
+BPE brings the perfect balance between character and word-level hybrid representations which makes it capable of managing large corpora. This behavior also enables the encoding of any rare words in the vocabulary with appropriate subword tokens without introducing any “unknown” tokens.
+
+BPE was used in order to tokenize the captions instead of using nltk.
+
+## Basic Image to Latex.ipynb
+
+An application of image captioning is to convert the the equation present in the image to latex format. Basic Sequence-to-Sequence models is used. CNN is used as encoder and RNN as decoder. Im2latex dataset is used. It contains 100K samples comprising of training, validation and test splits. 
+
+Generated formulas are not great. Following notebooks will explore techniques to improve it.
+
+## Image to Latex with Attention.ipynb
+
+Latex code generation using the attention mechanism is implemented. Instead of the simple average, we use the weighted average across all pixels, with the weights of the important pixels being greater. This weighted representation of the image can be concatenated with the previously generated word at each step to generate the next word of the formula.
+
+## Image to Latex with Beam Search.ipynb
+
+Added beam search in the decoding process. Also added Positional encoding to the input image and learning rate scheduler.
+
+# Text Summarization
+
+Automatic text summarization is the task of producing a concise and fluent summary while preserving key information content and overall meaning
+
+There are broadly two different approaches that are used for text summarization:
+
+- Extractive Summarization
+- Abstractive Summarization
+
+**`Extractive Summarization`**: We identify the important sentences or phrases from the original text and extract only those from the text. Those extracted sentences would be our summary.
+
+**`Abstractive Summarization`**: Here, we generate new sentences from the original text. This is in contrast to the extractive approach we saw earlier where we used only the sentences that were present. The sentences generated through abstractive summarization might not be present in the original text.
+
+The Encoder-Decoder architecture is mainly used to solve the sequence-to-sequence (Seq2Seq) problems (summarization) where the input and output sequences are of different lengths.
+
+## News Summarization with T5.ipynb
+
+Have you come across the mobile app `inshorts`? It’s an innovative news app that converts news articles into a 60-word summary.  And that is exactly what we are going to do in this notebook. The model used for this task is `T5`.
+
+## Email Subject Generation with T5.ipynb
+
+Given the overwhelming number of emails, an effective subject line becomes essential to better inform the recipient of the email's content.
+
+Email subject generation using T5 model was explored. AESLC dataset was used for this purpose.

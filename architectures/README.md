@@ -159,3 +159,97 @@ Resources:
 - [Pointer network paper](https://arxiv.org/pdf/1506.03134v1.pdf)
 - [Pointer network explained](https://www.youtube.com/watch?v=gKD7FqkvXy0)
 - [Blog by A paper A day](https://medium.com/@sharaf/a-paper-a-day-11-pointer-networks-59f7af1a611c)
+
+
+## Topic Modelling using LDA.ipynb
+
+One of the primary applications of natural language processing is to automatically extract what topics people are discussing from large volumes of text. Some examples of large text could be feeds from social media, customer reviews of hotels, movies, etc, user feedbacks, news stories, e-mails of customer complaints etc.
+
+Knowing what people are talking about and understanding their problems and opinions is highly valuable to businesses, administrators, political campaigns. And it’s really hard to manually read through such large volumes and compile the topics.
+
+Thus is required an automated algorithm that can read through the text documents and automatically output the topics discussed.
+
+In this notebook, we will take a real example of the `20 Newsgroups` dataset and use LDA to extract the naturally discussed topics.
+
+![lda](../assets/images/architectures/lda.png)
+
+LDA’s approach to topic modeling is it considers each document as a collection of topics in a certain proportion. And each topic as a collection of keywords, again, in a certain proportion.
+
+Once you provide the algorithm with the number of topics, all it does it to rearrange the topics distribution within the documents and keywords distribution within the topics to obtain a good composition of topic-keywords distribution.
+
+Resources:
+
+- [Youtube video on LDA](https://www.youtube.com/watch?v=3mHy4OSyRf0)
+- [LDA Tutorial](https://www.youtube.com/watch?v=NYkbqzTlW3w)
+- [Towardsdatascience blog on LDA](https://towardsdatascience.com/topic-modeling-and-latent-dirichlet-allocation-in-python-9bf156893c24)
+- [Analyticsvidhya blog on LDA](https://www.analyticsvidhya.com/blog/2016/08/beginners-guide-to-topic-modeling-in-python/)
+- [Machinelearningplus blog on LDA](https://www.machinelearningplus.com/nlp/topic-modeling-gensim-python/#4whatdoesldado)
+
+## Principal Component Analysis(PCA).ipynb
+
+PCA is fundamentally a dimensionality reduction technique that transforms the columns of a dataset into a new set features. It does this by finding a new set of directions (like X and Y axes) that explain the maximum variability in the data. This new system coordinate axes is called Principal Components (PCs).
+
+![pca](../assets/images/architectures/pca.png)
+
+Practically PCA is used for two reasons:
+
+- **`Dimensionality Reduction`**: The information distributed across a large number of columns is transformed into principal components (PC) such that the first few PCs can explain a sizeable chunk of the total information (variance). These PCs can be used as explanatory variables in Machine Learning models.
+
+- **`Visualize Data`**: Visualising the separation of classes (or clusters) is hard for data with more than 3 dimensions (features). With the first two PCs itself, it’s usually possible to see a clear separation.
+
+Use the following resources to understand how PCA works:
+
+- [PCA video by StatsQuest](https://www.youtube.com/watch?v=FgakZw6K1QQ)
+- [Machinelearningplus blog on PCA](https://www.machinelearningplus.com/machine-learning/principal-components-analysis-pca-better-explained/)
+- [Medium blog on PCA](https://medium.com/@jonathan_hui/machine-learning-singular-value-decomposition-svd-principal-component-analysis-pca-1d45e885e491)
+
+
+## Naive Bayes.ipynb
+
+A Naive Bayes classifier is a probabilistic machine learning model that’s used for classification task. The crux of the classifier is based on the Bayes theorem.
+
+![naive](../assets/images/architectures/naive_bayes.png)
+
+Using Bayes theorem, we can find the probability of A happening, given that B has occurred. Here, B is the evidence and A is the hypothesis. The assumption made here is that the predictors/features are independent. That is presence of one particular feature does not affect the other. Hence it is called naive.
+
+**Types of Naive Bayes Classifier**:
+
+`Multinomial Naive Bayes`:
+This is mostly used when the variables are discrete (like words). The features/predictors used by the classifier are the frequency of the words present in the document.
+
+`Gaussian Naive Bayes`:
+When the predictors take up a continuous value and are not discrete, we assume that these values are sampled from a gaussian distribution.
+
+`Bernoulli Naive Bayes`:
+This is similar to the multinomial naive bayes but the predictors are boolean variables. The parameters that we use to predict the class variable take up only values yes or no, for example if a word occurs in the text or not.
+
+Using 20newsgroup dataset, naive bayes algorithm is explored to do the classification.
+
+Resources:
+
+- [Multinomial Naive Bayes video by StatQuest](https://www.youtube.com/watch?v=O2L2Uv9pdDA)
+- [Gaussian Naive Bayes video by StatQuest](https://www.youtube.com/watch?v=H3EjCKtlVog)
+- [Machinelearningplus blog on Naive Bayes](https://www.machinelearningplus.com/predictive-modeling/how-naive-bayes-algorithm-works-with-example-and-full-code)
+
+
+## Data Augmentation in NLP.ipynb
+
+In Computer Vision using image data augmentation is a standard practice. This is because trivial operations for images like rotating an image a few degrees or converting it into grayscale doesn’t change its semantics. Whereas in natural language processing (NLP) field, it is hard to augmenting text due to high complexity of language.
+
+Data Augmentation using the following techniques is explored:
+
+- Synonym-based Substitution
+- Antonym-based Substitution
+- Back Translation
+- Text Surface Transformation
+- Random Noise Injection
+- Word Embedding based Substitution
+- Contextual Word Embeddings (BERT family) based Substitution
+
+![aug](../assets/images/architectures/augmentation.png)
+
+
+Resources: 
+
+- https://amitness.com/2020/05/data-augmentation-for-nlp/
+- https://github.com/makcedward/nlpaug

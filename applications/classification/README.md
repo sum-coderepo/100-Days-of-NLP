@@ -135,3 +135,35 @@ BERT obtains new state-of-the-art results on eleven natural language processing 
 
 - Student Model: Distilbert base uncased
 - Teacher Model: Bert base uncased
+
+# NER Tagging
+
+Named-Entity-Recognition (NER) tagging, is a task of labelling each word in a sentence with its appropriate entity.
+
+## NER tagging with BiLSTM.ipynb
+
+This code covers the basic workflow. We'll see how to: load data, create train/test/validation splits, build a vocabulary, create data iterators, define a model and implement the train/evaluate/test loop and train, test the model.
+
+The model used is a Bi-directional LSTM network
+
+## NER tagging with BiLSTM-CRF.ipynb
+
+In the case of Sequence tagging (NER) the tag of a current word might depend on previous word's tag. (ex: New York).
+
+Without a CRF, we would have simply used a single linear layer to transform the output of the Bidirectional LSTM into scores for each tag. These are known as `emission scores`, which are a representation of the likelihood of the word being a certain tag.
+
+A CRF calculates not only the emission scores but also the `transition scores`, which are the likelihood of a word being a certain tag considering the previous word was a certain tag. Therefore the transition scores measure how likely it is to transition from one tag to another.
+
+For decoding, `Viterbi` algorithm is used.
+
+Since we're using CRFs, we're not so much predicting the right label at each word as we are predicting the right label sequence for a word sequence. Viterbi Decoding is a way to do exactly this – find the most optimal tag sequence from the scores computed by a Conditional Random Field.
+
+
+## NER tagging with Char-BiLSTM-CRF.ipynb
+
+Using sub-word information in our tagging task because it can be a powerful indicator of the tags, whether they're parts of speech or entities. For example, it may learn that adjectives commonly end with "-y" or "-ul", or that places often end with "-land" or "-burg".
+
+Therefore, our sequence tagging model uses both
+
+- `word-level` information in the form of word embeddings.
+- `character-level` information up to and including each word in both directions.

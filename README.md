@@ -153,6 +153,71 @@ It differs from the previous attention attempts in that, instead of using attent
 
 ![pointer](./assets/images/architectures/pointer_network.png)
 
+### Day 63: Topic Modelling using LDA
+
+One of the primary applications of natural language processing is to automatically extract what topics people are discussing from large volumes of text. Some examples of large text could be feeds from social media, customer reviews of hotels, movies, etc, user feedbacks, news stories, e-mails of customer complaints etc.
+
+Knowing what people are talking about and understanding their problems and opinions is highly valuable to businesses, administrators, political campaigns. And it’s really hard to manually read through such large volumes and compile the topics.
+
+Thus is required an automated algorithm that can read through the text documents and automatically output the topics discussed.
+
+In this notebook, we will take a real example of the `20 Newsgroups` dataset and use LDA to extract the naturally discussed topics.
+
+![lda](assets/images/architectures/lda.png)
+
+LDA’s approach to topic modeling is it considers each document as a collection of topics in a certain proportion. And each topic as a collection of keywords, again, in a certain proportion.
+
+Once you provide the algorithm with the number of topics, all it does it to rearrange the topics distribution within the documents and keywords distribution within the topics to obtain a good composition of topic-keywords distribution.
+
+### Day 68: Principal Component Analysis(PCA)
+
+PCA is fundamentally a dimensionality reduction technique that transforms the columns of a dataset into a new set features. It does this by finding a new set of directions (like X and Y axes) that explain the maximum variability in the data. This new system coordinate axes is called Principal Components (PCs).
+
+![pca](assets/images/architectures/pca.png)
+
+Practically PCA is used for two reasons:
+
+- **`Dimensionality Reduction`**: The information distributed across a large number of columns is transformed into principal components (PC) such that the first few PCs can explain a sizeable chunk of the total information (variance). These PCs can be used as explanatory variables in Machine Learning models.
+
+- **`Visualize Data`**: Visualising the separation of classes (or clusters) is hard for data with more than 3 dimensions (features). With the first two PCs itself, it’s usually possible to see a clear separation.
+
+### Day 69: Naive Bayes Algorithm
+
+A Naive Bayes classifier is a probabilistic machine learning model that’s used for classification task. The crux of the classifier is based on the Bayes theorem.
+
+![naive](assets/images/architectures/naive_bayes.png)
+
+Using Bayes theorem, we can find the probability of A happening, given that B has occurred. Here, B is the evidence and A is the hypothesis. The assumption made here is that the predictors/features are independent. That is presence of one particular feature does not affect the other. Hence it is called naive.
+
+**Types of Naive Bayes Classifier**:
+
+`Multinomial Naive Bayes`:
+This is mostly used when the variables are discrete (like words). The features/predictors used by the classifier are the frequency of the words present in the document.
+
+`Gaussian Naive Bayes`:
+When the predictors take up a continuous value and are not discrete, we assume that these values are sampled from a gaussian distribution.
+
+`Bernoulli Naive Bayes`:
+This is similar to the multinomial naive bayes but the predictors are boolean variables. The parameters that we use to predict the class variable take up only values yes or no, for example if a word occurs in the text or not.
+
+Using 20newsgroup dataset, naive bayes algorithm is explored to do the classification.
+
+### Day 74: Data Augmentation in NLP
+
+In Computer Vision using image data augmentation is a standard practice. This is because trivial operations for images like rotating an image a few degrees or converting it into grayscale doesn’t change its semantics. Whereas in natural language processing (NLP) field, it is hard to augmenting text due to high complexity of language.
+
+Data Augmentation using the following techniques is explored:
+
+- Synonym-based Substitution
+- Antonym-based Substitution
+- Back Translation
+- Text Surface Transformation
+- Random Noise Injection
+- Word Embedding based Substitution
+- Contextual Word Embeddings (BERT family) based Substitution
+
+![aug](assets/images/architectures/augmentation.png)
+
 
 Checkout the code in `architectures` folder
 
@@ -366,6 +431,46 @@ Following experiments have been tried:
 - Training using Distilbert Model (without teacher forcing). Acc: `82.54`, MCC: `57`
 - Training using Distilbert Model (with teacher forcing). Acc: `82.92`, MCC: `57.9`
 
+### Day 79: NER tagging with BiLSTM
+
+Named-Entity-Recognition (NER) tagging, is a task of labelling each word in a sentence with its appropriate entity.
+
+This code covers the basic workflow. We'll see how to: load data, create train/test/validation splits, build a vocabulary, create data iterators, define a model and implement the train/evaluate/test loop and train, test the model.
+
+The model used is Bi-directional LSTM network
+
+![ner](assets/images/applications/classification/ner_lstm.png)
+
+### Day 80: NER tagging with BiLSTM-CRF
+
+In the case of Sequence tagging (NER) the tag of a current word might depend on previous word's tag. (ex: New York).
+
+Without a CRF, we would have simply used a single linear layer to transform the output of the Bidirectional LSTM into scores for each tag. These are known as `emission scores`, which are a representation of the likelihood of the word being a certain tag.
+
+A CRF calculates not only the emission scores but also the `transition scores`, which are the likelihood of a word being a certain tag considering the previous word was a certain tag. Therefore the transition scores measure how likely it is to transition from one tag to another.
+
+![ner](assets/images/applications/classification/bilstm_crf.png)
+
+### Day 81: NER Decoding using Viterbi Algorithm
+
+For decoding, `Viterbi` algorithm is used.
+
+Since we're using CRFs, we're not so much predicting the right label at each word as we are predicting the right label sequence for a word sequence. Viterbi Decoding is a way to do exactly this – find the most optimal tag sequence from the scores computed by a Conditional Random Field.
+
+![ner](assets/images/applications/classification/viterbi.png)
+
+### Day 82: NER tagging with Char-BiLSTM-CRF
+
+Using sub-word information in our tagging task because it can be a powerful indicator of the tags, whether they're parts of speech or entities. For example, it may learn that adjectives commonly end with "-y" or "-ul", or that places often end with "-land" or "-burg".
+
+Therefore, our sequence tagging model uses both
+
+- `word-level` information in the form of word embeddings.
+- `character-level` information up to and including each word in both directions.
+
+![ner](assets/images/applications/classification/char_bilstm_ner.png)
+
+
 Checkout the code in `applications/classification` folder
 
 ## Generation based Applications
@@ -499,7 +604,7 @@ Till now the Utterance Generation is trained using the `Quora Question Pairs` da
 ![utt_gen](assets/images/applications/generation/utt_gen_gen.png)
 
 
-### Day 55-56 Basic Image Captioning.ipynb
+### Day 55-56 Basic Image Captioning
 
 Image Captioning is the process of generating a textual description of an image. It uses both Natural Language Processing and Computer Vision techniques to generate the captions.
 
@@ -508,6 +613,69 @@ The encoder-decoder framework is widely used for this task. The image encoder is
 In this notebook, the resnet-152 model pretrained on the ILSVRC-2012-CLS image classification dataset is used as the encoder. The decoder is a long short-term memory (LSTM) network.
 
 ![img_cap](assets/images/applications/generation/basic_image_captioning.png)
+
+### Day 57: Image Captioning with Attention
+
+In this notebook, the resnet-101 model pretrained on the ILSVRC-2012-CLS image classification dataset is used as the encoder. The decoder is a long short-term memory (LSTM) network. Attention is implemented. Instead of the simple average, we use the weighted average across all pixels, with the weights of the important pixels being greater. This weighted representation of the image can be concatenated with the previously generated word at each step to generate the next word of the caption.
+
+![img_cap](assets/images/applications/generation/img_cap_attn.png)
+
+
+### Day 58-59: Image Captioning with Beam Search
+
+Instead of greedily choosing the most likely next step as the caption is constructed, the beam search expands all possible next steps and keeps the k most likely, where k is a user-specified parameter and controls the number of beams or parallel searches through the sequence of probabilities.
+
+![img_cap](assets/images/applications/generation/img_cap_beam.png)
+
+### Day 60: Image Captioning with BPE Tokenization
+
+Today, subword tokenization schemes inspired by BPE have become the norm in most advanced models including the very popular family of contextual language models like BERT, GPT-2,RoBERTa, etc.
+
+BPE brings the perfect balance between character and word-level hybrid representations which makes it capable of managing large corpora. This behavior also enables the encoding of any rare words in the vocabulary with appropriate subword tokens without introducing any “unknown” tokens.
+
+BPE was used in order to tokenize the captions instead of using nltk.
+
+![img_cap](assets/images/applications/generation/utt_gen_bpe.png)
+
+
+### Day 61: News Summarization with T5
+
+Automatic text summarization is the task of producing a concise and fluent summary while preserving key information content and overall meaning. Have you come across the mobile app `inshorts`? It’s an innovative news app that converts news articles into a 60-word summary.  And that is exactly what we are going to do in this notebook. The model used for this task is `T5`.
+
+![news_sum](assets/images/applications/generation/t5_summ.png)
+
+### Day 62: Email Subject Generation with T5.
+
+Given the overwhelming number of emails, an effective subject line becomes essential to better inform the recipient of the email's content.
+
+Email subject generation using T5 model was explored. AESLC dataset was used for this purpose.
+
+![email_sub](assets/images/applications/generation/email_sub.png)
+
+### Day 70: Basic Image to Latex
+
+An application of image captioning is to convert the the equation present in the image to latex format. Basic Sequence-to-Sequence models is used. CNN is used as encoder and RNN as decoder. Im2latex dataset is used. It contains 100K samples comprising of training, validation and test splits. 
+
+![img_cap](assets/images/applications/generation/im2latex.png)
+
+Generated formulas are not great. Following notebooks will explore techniques to improve it.
+
+### Day 71: Image to Latex with Attention
+
+Latex code generation using the attention mechanism is implemented. Instead of the simple average, we use the weighted average across all pixels, with the weights of the important pixels being greater. This weighted representation of the image can be concatenated with the previously generated word at each step to generate the next word of the formula.
+
+![img_cap](assets/images/applications/generation/imgtolatex_attn.png)
+
+### Day 72: Image to Latex with Beam Search
+
+Added beam search in the decoding process. Also added Positional encoding to the input image and learning rate scheduler.
+
+### Day 73: Image to LaTex Conversion using Streamlit
+
+Converted the Latex formula generation into an app using streamlit.
+
+![latex](assets/images/applications/generation/latex_app.png)
+
 
 Checkout the code in `applications/generation` folder
 
@@ -520,3 +688,90 @@ There was a kaggle problem on [covid-19 research challenge](https://www.kaggle.c
 The procedure I have taken is to convert the `abstracts` into a embedding representation using [`sentence-transformers`](https://github.com/UKPLab/sentence-transformers/). When a query is asked, it will converted into an embedding and then ranked across the abstracts using `cosine` similarity.
 
 ![covid](assets/images/applications/ranking/covid.png)
+
+
+## Clustering based Applications
+
+### Day 64: Topic Identification in News using LDA
+
+LDA’s approach to topic modeling is it considers each document as a collection of topics in a certain proportion. And each topic as a collection of keywords, again, in a certain proportion.
+
+Once you provide the algorithm with the number of topics, all it does it to rearrange the topics distribution within the documents and keywords distribution within the topics to obtain a good composition of topic-keywords distribution.
+
+20 Newsgroup dataset was used and only the articles are provided to identify the topics. Topic Modelling algorithms will provide for each topic what are the important words. It is upto us to infer the topic name.
+
+![lda](assets/images/applications/clustering/lda_vis.png)
+
+### Day 65: Improved Topic Identification in News using LDA
+
+Choosing the number of topics is a difficult job in Topic Modelling. In order to choose the optimal number of topics, grid search is performed on various hypermeters. In order to choose the best model the model having the best perplexity score is choosed.
+
+A good topic model will have non-overlapping, fairly big sized blobs for each topic. 
+
+![lda](assets/images/applications/clustering/lda_imp.png)
+
+- LDA using scikit-learn is implemented.
+- Inference (predicting the topic of a given sentence) is also implemented.
+
+### Day 67: Topic Identification in News using LSA
+
+We would clearly expect that the words that appear most frequently in one topic would appear less frequently in the other - otherwise that word wouldn't make a good choice to separate out the two topics. Therefore, we expect the topics to be `orthogonal`.
+
+Latent Semantic Analysis (LSA) uses SVD. You will sometimes hear topic modelling referred to as LSA.
+
+The SVD algorithm factorizes a matrix into one matrix with `orthogonal columns` and one with `orthogonal rows` (along with a diagonal matrix, which contains the relative importance of each factor).
+
+![svd](assets/images/applications/clustering/svd.png)
+
+Notes:
+- SVD is a determined dimension reduction algorithm
+- LDA is a probability-based generative model
+
+### Day 66: Covid article finding using LDA
+
+Finding the relevant article from a covid-19 research article [corpus of 50K+ documents](https://www.kaggle.com/allen-institute-for-ai/CORD-19-research-challenge) using LDA is explored.
+
+The documents are first clustered into different topics using LDA. For a given query, dominant topic will be found using the trained LDA. Once the topic is found, most relevant articles will be fetched using the `jensenshannon` distance.
+
+Only abstracts are used for the LDA model training. LDA model was trained using 35 topics.
+
+![lda](assets/images/applications/clustering/covid_lda.png)
+
+
+## Question Answering based Applications in NLP
+
+### Day 75: Basic Question Answering with Dynamic Memory Networks
+
+Dynamic Memory Network (DMN) is a neural network architecture which processes input sequences and questions, forms episodic memories, and generates relevant answers.
+
+![dmn](assets/images/applications/question-answering/dmn.png)
+
+Dataset used is bAbI which has 20 tasks with an amalgamation of inputs, queries and answers. See the following figure for sample.
+
+![babi](assets/images/applications/question-answering/babi.png)
+
+### Day 76: Question Answering using DMN Plus
+
+The main difference between DMN+ and DMN is the improved InputModule for calculating the facts from input sentences keeping in mind the exchange of information between input sentences using a Bidirectional GRU and a improved version of MemoryModule using Attention based GRU model.
+
+![dmn](assets/images/applications/question-answering/dmn_plus.png)
+
+### Day 77: Basic Visual Question Answering
+
+Visual Question Answering (VQA) is the task of given an image and a natural
+language question about the image, the task is to provide an accurate natural language answer.
+
+![vqa](assets/images/applications/question-answering/basic_vqa.png)
+
+The model uses a two layer LSTM to encode the questions and the last hidden layer of VGGNet to encode the images. The image features are then l_2 normalized. Both the question and image features are transformed to a common space and fused via element-wise multiplication, which is then passed through a fully connected layer followed by a softmax layer to obtain a distribution over answers.
+
+### Day78: Visual Question Answering with DMN Plus
+
+To apply the DMN to visual question answering, input module is modified for images. The module splits an image into small local regions and considers each region equivalent to a sentence in the input module for text.
+
+The input module for VQA is composed of three parts, illustrated in below fig: 
+- local region feature extraction
+- visual feature embedding
+- input fusion layer
+
+![vqa](assets/images/applications/question-answering/vqa_dmn_plus.png)
