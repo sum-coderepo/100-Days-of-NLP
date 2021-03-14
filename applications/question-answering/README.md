@@ -109,3 +109,66 @@ As we can see the results are more accurate compared to basic vqa.
 
 #### References
 - [DMN+ Paper](https://arxiv.org/pdf/1603.01417.pdf)
+
+## Boolean Question Answering.ipynb
+
+Boolean question answering is to answer whether the question has answer present in the given context or not. The BoolQ dataset contains  the queries for complex, non-factoid information, and require difficult entailment-like inference to solve. 
+
+![boolqa](../../assets/images/applications/question-answering/bool_qa.png)
+
+Intent of this notebook is to explore the how simply we can build a boolean question answering model.
+
+#### References
+- [BoolQ paper](https://arxiv.org/pdf/1905.10044.pdf)
+- [Thomas Wolf post on using transformers](https://www.linkedin.com/posts/thomas-wolf-a056857_nlp-ai-opensource-activity-6702500587939868672-YLmC)
+
+
+## Question Answering using Dynamic-CoAttention-Network.ipynb
+
+The DCN first fuses co-dependent representations of the question and the document in order to focus on relevant parts of both. Then a dynamic pointing decoder iterates over potential answer spans. This iterative procedure enables the model to recover from initial local maxima corresponding to incorrect answers.
+
+The Dynamic Coattention Network has two major parts: a coattention encoder and a
+dynamic decoder. 
+
+**`CoAttention Encoder`**: The model first encodes the
+given document and question separately via the document and question encoder. The
+document and question encoders are essentially a one-directional LSTM network with one
+layer. Then it passes both the document and question encodings to another encoder which
+computes the `coattention` via matrix multiplications and outputs the coattention encoding
+from another bidirectional LSTM network.
+
+**`Dynamic Decoder`**: Dynamic decoder is also a one-directional
+LSTM network with one layer. The model runs the LSTM network through `several
+iterations`. In each iteration, the LSTM takes in the final hidden state of the LSTM and the
+start and end word embeddings of the answer in the last iteration and outputs a new hidden
+state. Then, the model uses a `Highway Maxout Network` (HMN) to compute the new start
+and end word embeddings of the answer in each iteration.
+
+![dcn](../../assets/images/applications/question-answering/dcn.png)
+
+SQuAD-v1.1 dataset is used for this purpose
+
+*Note: Training using SQuAD dataset will take few hours of GPU. Intention of the notebook is to understand the implementation of the model not the F1/EM scores*.
+
+#### References
+
+- [DCN paper](https://arxiv.org/pdf/1611.01604.pdf)
+- [Code reference](https://github.com/richardsfc/coattention-network-QA/)
+- [SQuAD dataset](https://github.com/rajpurkar/SQuAD-explorer)
+
+
+## Question Answering using Double-Cross-Attention.ipynb
+
+Double Cross Attention (DCA) seems to provide better results compared to both BiDAF and Dynamic Co-Attention Network (DCN). The motivation behind this approach is that first we pay attention to each context and question and then we attend those attentions with respect to each other in a slightly similar way as DCN. The intuition is that if iteratively read/attend both context and question, it should help us to search for answers easily. 
+
+I have augmented the Dynamic Decoder part from DCN model in-order to have iterative decoding process which helps finding better answer. 
+
+![dca](../../assets/images/applications/question-answering/dca.png)
+
+SQuAD-v1.1 dataset is used for this purpose
+
+*Note: Training using SQuAD dataset will take few hours of GPU. Intention of the notebook is to understand the implementation of the model not the F1/EM scores*.
+
+#### References
+
+- [DCA paper](https://arxiv.org/pdf/1803.09230.pdf)

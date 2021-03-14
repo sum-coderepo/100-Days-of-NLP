@@ -26,6 +26,56 @@ Attention helps in focusing on the relevant input when predicting the sentiment 
 
 BERT obtains new state-of-the-art results on eleven natural language processing tasks. Transfer learning in NLP has triggered after the release of BERT model. In this notebook, we will explore how to use BERT for Sentiment Analysis.
 
+# Sentimix: Sentiment Analysis for Code-Mixed Social Media Text
+
+Mixing languages, also known as code-mixing, is a norm in multilingual societies. Multilingual people, who are non-native English speakers, tend to code-mix using English-based phonetic typing and the insertion of anglicisms in their main language.
+
+The task is to predict the sentiment of a given code-mixed tweet. The sentiment labels are positive, negative, or neutral, and the code-mixed languages will be English-Hindi.
+
+Dataset consists of 14,000 training samples and 3,000 test samples.
+
+## Basic Sentimix using MLP.ipynb
+
+This notebook contains: Reading and Parsing the data, Visualization of data, Data Cleaning, Splitting the data into train, val and test splits, Converting the data into numerical format using BoW (Bag of Words), Using a basic Multi-Layer Perceptron model for sentiment classification, Evaluation on test data. 
+
+Using simple MLP model an F1 score of `0.58` was achieved.
+
+## Sentimix using LSTM.ipynb
+
+LSTM model was used for sentiment prediction. An F1 score of `0.57` was achieved.
+
+The results were actually less compared to a basic MLP model. One of the reason might be LSTM is not able to learn the relationships among the words in a sentence due to the highly diverse nature of the Code-mixed data.
+
+## Sentimix with XLM-RoBERTa.ipynb
+
+As the LSTM is not able to learn the relationships between the words in a code-mixed sentence due to the highly diverse nature of the Code-mixed data and no pre-trained embeddings are used, the F1 score is less.
+
+To alleviate this problem XLM-RoBERTa model (which has been pre-trained on 100 languages) is being used to encode the sentence. In order to use the XLM-RoBERTa model, the sentence needs to be in a proper language. So first the Hinglish words need to be converted to the Hindi (Devanagari) form.
+
+An F1 score of `0.59` was achieved. Methods to improve this will be explored later on.
+
+
+### Sentimix with XLM-RoBERTa-LSTM-Attention.ipynb
+
+The final output from XLM-RoBERTa model were used as input embeddings to bi-directional LSTM model. An attention layer, which takes the outputs from LSTM layer, produces a weighted representation of the input, which is then passed through a classifier for predicting the sentiment of the sentence.
+
+An F1 score of `0.64` was achieved.
+
+
+### Sentimix with XLM-RoBERTA-CNN.ipynb
+
+In the same way that a 3x3 filter can look over a patch of an image, a 1x2 filter can look over a 2 sequential words in a piece of text, i.e. a bi-gram. In this CNN model we will instead use multiple filters of different sizes which will look at the bi-grams (a 1x2 filter), tri-grams (a 1x3 filter) and/or n-grams (a 1xn filter) within the text.
+
+The intuition here is that the appearance of certain bi-grams, tri-grams and n-grams within the review will be a good indication of the final sentiment.
+
+An F1 score of `0.69` was achieved.
+
+### Sentimix with XLM-RoBERTA-Ensemble.ipynb
+
+CNN captures the local dependencies where as RNN captures the global dependencies. By combining both we can get better understanding of the data. Ensembling of CNN model and Bidirectional-GRU-Attention model out performs the other ones.
+
+An F1 score of `0.71` was achieved.
+
 # Document Classification
 
 ## Document Classification with Hierarchical Attention Network
@@ -167,3 +217,23 @@ Therefore, our sequence tagging model uses both
 
 - `word-level` information in the form of word embeddings.
 - `character-level` information up to and including each word in both directions.
+
+## NER tagging with Transformer.ipynb
+
+After trying the RNN approach, POS tagging with Transformer based architecture is explored. Since the Transformer contains both Encoder and Decoder and for the sequence labeling task only `Encoder` will be sufficient. A 3-layer Transformer Encoder model was used.
+
+## NER tagging with BERT.ipynb
+
+After trying NER tagging with Transformer Encoder, NER Tagging with pre-trained `bert-base-cased` model is explored.
+
+## NER tagging with Transformer-CRF.ipynb
+
+The transformer alone is not giving good results compared to BiLSTM in the NER tagging task. Augmenting the CRF layer on top of the transformer is implemented which is improving results compared to standalone Transformer.
+
+## NER tagging with Spacy.ipynb
+
+SpaCy provides an exceptionally efficient statistical system for NER in python, which can assign labels to groups of tokens. It provides a default model which can recognize a wide range of named or numerical entities, which include person, organization, language, event etc.
+
+Apart from these default entities, spaCy also gives us the liberty to add arbitrary classes to the NER model, by training the model to update it with newer trained examples.
+
+2 new entities called **`ACTIVITY`** and **`SERVICE`** in a specific domain data (bank) are created and trained with few training samples.
